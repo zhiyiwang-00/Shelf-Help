@@ -23,10 +23,6 @@ export class LoginPageComponent {
 }
 
 
-
-
-
-
 //Not quiete sure how this should be implemented, so lets do some pseudocode
 /*
 0: user inputs text
