@@ -19,7 +19,6 @@ export class BookCataloguePageComponent {
       this.books = data;
       console.log(this.books);
     });
-    
   }
   
   // onImageError(event: Event): void {

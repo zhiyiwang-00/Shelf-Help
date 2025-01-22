@@ -8,12 +8,13 @@ import { catchError } from 'rxjs/operators';
 })
 
 class APIService {
-  protected apiUrl = 'https://charm-elderly-hook.glitch.me/shelf_help_books'; // Replace with your API endpoint
+  protected apiUrl;
   protected apiKey = 'thisisanapikey';
   protected http;
 
-  constructor(http: HttpClient) { 
+  constructor(http: HttpClient, apiLocation: String = "") { 
     this.http = http;
+    this.apiUrl = `https://charm-elderly-hook.glitch.me/${apiLocation}`; // Replace with your API endpoint
   };
 
   ErrorHandelig(error:any, dataType:String = "data") {
@@ -25,7 +26,7 @@ class APIService {
 @Injectable()
 export class BookService extends APIService {
   constructor(http: HttpClient){
-    super(http)};
+    super(http, "shelf_help_books")};
 
   getBooks(): Observable<Book[]> {
     const headers = new HttpHeaders({
@@ -40,7 +41,7 @@ export class BookService extends APIService {
 @Injectable()
 export class UserService extends APIService {
   constructor(http: HttpClient){
-    super(http)};
+    super(http, "shelf_help_users")};
 
   getUsers(): Observable<User[]> {
     const headers = new HttpHeaders({
@@ -64,7 +65,7 @@ export interface Book {
 
 export interface User {
   id: number,
-  username:String,
+  username: String,
   collection: Book[];
 }
 

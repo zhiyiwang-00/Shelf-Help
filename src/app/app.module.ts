@@ -8,7 +8,7 @@ import { LoginPageComponent } from './components/login-page/login-page.component
 import { ReadingListPageComponent } from './components/reading-list-page/reading-list-page.component';
 import { BookCataloguePageComponent } from './components/book-catalogue-page/book-catalogue-page.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { BookService } from './book.service';
+import { BookService, UserService } from './book.service';
 
 @NgModule({
   declarations: [
@@ -22,7 +22,9 @@ import { BookService } from './book.service';
     BrowserModule,
     AppRoutingModule,
   ],
-  providers: [BookService,
+  providers: [BookService, 
+    provideHttpClient(),
+    UserService,
     provideHttpClient()
   ],
   bootstrap: [AppComponent]
