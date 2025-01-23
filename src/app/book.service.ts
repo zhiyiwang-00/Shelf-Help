@@ -27,10 +27,7 @@ export class BookService extends APIService {
     super(http, "shelf_help_books")};
 
   getBooks(): Observable<Book[]> {
-    const headers = new HttpHeaders({
-      "x-api-key": `${this.apiKey}`   // Add API key to headers
-    });
-    return this.http.get<Book[]>(this.apiUrl, { headers }).pipe(
+    return this.http.get<Book[]>(this.apiUrl).pipe(
       catchError((error) => this.errorHandelig(error, "books"))
     );
   }
@@ -43,10 +40,7 @@ export class UserService extends APIService {
     super(http, "shelf_help_users")};
 
   getUsers(): Observable<User[]> {
-    const headers = new HttpHeaders({
-      "x-api-key": `${this.apiKey}`   // Add API key to headers
-    });
-    return this.http.get<User[]>(this.apiUrl, { headers }).pipe(
+    return this.http.get<User[]>(this.apiUrl).pipe(
       catchError((error) => this.errorHandelig(error, "users"))
     );
   }
@@ -79,19 +73,11 @@ export class UserService extends APIService {
       username: usernameInput,
       collection: []
     }
-    // userArray.push({
-    //   id: userArray[userArray.length - 1].id + 1,
-    //   username: usernameInput,
-    //   collection: []
-    // })
-    
     const headers = new HttpHeaders({
       "x-api-key": `${this.apiKey}`  // Add API key to headers
     });
-    console.log(headers)
     this.http.post<User[]>(this.apiUrl, newUser, { headers }).subscribe(data => { //Will assume this as next?  /NEED PASSCODE
       console.log('Updated data', data)});
-    // console.log(this.apiUrl, userArray)
     //Navigate?
   }
 }
