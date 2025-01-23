@@ -17,7 +17,6 @@ export class BookService {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.apiKey}`  // Add API key to headers
     });
-
     return this.http.get<Book[]>(this.apiUrl, { headers }).pipe(
       catchError((error) => {
         console.error('Error fetching books:', error);
@@ -25,6 +24,18 @@ export class BookService {
       })
     );
   }
+
+  // getBookById(id: number): Observable<Book> {
+  //   const headers = new HttpHeaders({
+  //     'Authorization': `Bearer ${this.apiKey}`  // Add API key to headers
+  //   });
+  //   return this.http.get<Book>(`${this.apiUrl}/${id}`, { headers }).pipe(
+  //     catchError((error) => {
+  //       console.error('Error fetching book:', error);
+  //       return throwError(() => new Error(error));
+  //     })
+  //   );
+  // }
 }
 
 export interface Book {
