@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { User, UserService } from '../../book.service'; //"User interface"
 
@@ -9,8 +9,10 @@ import { User, UserService } from '../../book.service'; //"User interface"
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.css'
 })
+
 export class LoginPageComponent {
   users: User[] = [];
+  username: string = '';
   
   constructor(private userService: UserService) {}
   
@@ -20,6 +22,15 @@ export class LoginPageComponent {
         console.log(this.users);
       });
     }
+
+  saveUsername(event: Event): void {
+    event.preventDefault(); 
+
+    if (this.username) {
+      localStorage.setItem('user', JSON.stringify({ username: this.username }));
+    } 
+  }
+
 }
 
 
