@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { provideHttpClient } from '@angular/common/http';  
+import { HttpClientModule, provideHttpClient } from '@angular/common/http';  
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,10 +22,10 @@ import { BookService, UserService } from './book.service';
     BrowserModule,
     AppRoutingModule,
   ],
-  providers: [BookService, 
+  providers: [
     provideHttpClient(),
+    BookService, 
     UserService,
-    provideHttpClient()
   ],
   bootstrap: [AppComponent]
 })

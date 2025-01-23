@@ -17,8 +17,10 @@ export class LoginPageComponent {
     ngOnInit() {
       this.userService.getUsers().subscribe((data: User[]) => {
         this.users = data;
+        //Testing changes:
         console.log(this.users);
       });
+      this.userService.alreadyRegistered("Johannes");
     }
 }
 
