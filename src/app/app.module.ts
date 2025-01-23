@@ -10,12 +10,10 @@ import { LoginPageComponent } from './components/login-page/login-page.component
 import { ReadingListPageComponent } from './components/reading-list-page/reading-list-page.component';
 import { BookCataloguePageComponent } from './components/book-catalogue-page/book-catalogue-page.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-<<<<<<< HEAD
 import { BookService, UserService } from './book.service';
-=======
-import { BookService } from './book.service';
 import { BookDetailsPageComponent } from './components/book-details-page/book-details-page.component';
->>>>>>> f5d0314 (small fix)
+import { BookItemComponent } from './book-item/book-item.component';
+
 
 @NgModule({
   declarations: [
@@ -24,7 +22,8 @@ import { BookDetailsPageComponent } from './components/book-details-page/book-de
     ReadingListPageComponent,
     BookCataloguePageComponent,
     NavbarComponent,
-    BookDetailsPageComponent
+    BookDetailsPageComponent,
+    BookItemComponent
   ],
   imports: [
     BrowserModule,
