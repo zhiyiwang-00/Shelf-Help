@@ -12,7 +12,7 @@ import { Book, BookService, User, UserService } from '../../book.service';
 export class BookCataloguePageComponent {
   books: Book[] = [];
   users: User[] = [];
-  userCollection: Book[] = [];
+  userCollection: string[] = [];
   // userCollectionIDs: Set<number> = new Set(); // Use a Set for quick lookup
 
   isLoading: boolean = true;
@@ -73,7 +73,7 @@ export class BookCataloguePageComponent {
       // this.currentBook = this.books.find(book => book === book);
       // if (this.currentBook) {
         // book.saved = true;
-        this.userCollection?.push(book);
+        this.userCollection?.push(book.title);
         // console.log(book);
         const userData = localStorage.getItem("user");
         if (userData) {

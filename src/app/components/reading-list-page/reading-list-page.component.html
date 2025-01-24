@@ -9,7 +9,7 @@
     </div> -->
 
   <div class="row">
-    <div *ngFor="let book of collection" class="col-md-4" style="height: auto; margin-bottom: 2%;">
+    <div *ngFor="let book of userBooks" class="col-md-4" style="height: auto; margin-bottom: 2%;">
       <app-book-item [book]="book" [version]="'readingList'" (newBookEvent)="removeBook($event)"></app-book-item>
     </div>
 

@@ -13,7 +13,7 @@ export class BookItemComponent {
   constructor(private bookService: BookService) { };
 
   @Input() book!: Book;
-  @Input() collection: Book[] = [];
+  @Input() collection: string[] = [];
   @Input() version!: 'catalogue' | 'readingList';
 
   
@@ -29,7 +29,7 @@ export class BookItemComponent {
 
   checkSavedBook(book: Book): boolean {
     // this.userCollection.some(book => book === book.id)
-    if(this.collection?.find((b: Book) => b.id === book.id)){
+    if(this.collection?.find(b => b === book.title)){
       return true;
     }
     return false;

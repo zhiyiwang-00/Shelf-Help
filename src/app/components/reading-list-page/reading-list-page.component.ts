@@ -11,34 +11,28 @@ import { Book, BookService} from '../../book.service';
 
 export class ReadingListPageComponent {
   constructor(private bookService: BookService) { }
-  
-  collection: Book[] = [];
-  books: Book[] = [];
+  userCollection: string[] = [];
+  userBooks: Book[] = [];
 
   ngOnInit() {
     const localUserData = localStorage.getItem("user");
     const loggedInUser = localUserData ? JSON.parse(localUserData) : null;
-    // const loggedInUserApiData = this.users.find(user => user.username === loggedInUser.username)
-    // this.userCollection = loggedInUserApiData?.collection.map(book => book.id);
-    this.collection = loggedInUser?.collection;
-    // console.log(this.collection);
+    this.userCollection = loggedInUser?.collection;
 
+    this.bookService.getBooks().subscribe({
+      next: (data: Book[]) => {
+        this.userBooks = [];
 
-    // this.bookService.getBooks().subscribe({
-    //   next: (data: Book[]) => {
-    //     // this.books = data;
-    //     // console.log(this.books);
-    //     // this.isLoading = false;
-    //     data.map(book => {
-    //       if (this.collection.includes(book)) {
-    //         this.books.push(book);
-    //       }
-    //     })
-    //   },
-    //   error: (error: any) => {
-    //     console.error('Error fetching books:', error);
-    //   }
-    // });
+        this.userBooks = this.userCollection.map(title =>
+          data.find(book => book.title === title)
+        ).filter(book => book !== undefined) as Book[];
+    
+        console.log(this.userBooks);
+      },
+      error: (error: any) => {
+        console.error('Error fetching books:', error);
+      }
+    });
   }
 
   removeBook(book: Book): void {
@@ -48,13 +42,14 @@ export class ReadingListPageComponent {
       // this.currentBook = this.books.find(book => book.id === bookID);
       // // this.savedBook = true;
       // //update book to user api collection/local storage
-      this.collection = this.collection?.filter(b => b !== book);
+      this.userBooks = this.userBooks?.filter(b => b !== book);
+      this.userCollection = this.userCollection?.filter(b => b !== book.title);
       let removingbook = document.getElementById(book.id.toString());
 
       const userData = localStorage.getItem("user");
       if (userData) {
         const user = JSON.parse(userData);
-        user.collection = this.collection;
+        user.collection = this.userCollection;
         localStorage.setItem("user", JSON.stringify(user));
         removingbook?.remove();
       } 
