@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { User, UserService } from '../../book.service'; //"User interface"
 
@@ -14,33 +15,33 @@ export class LoginPageComponent {
   users: User[] = [];
   username: string = '';
   
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private router: Router) {}
+
+    ngOnInit(){
+      localStorage.setItem('user', JSON.stringify({ username: '' }));
+    }
   
     checkAndSaveUser(event: Event): void {
-      this.saveUsername(event);
-      this.userService.alreadyRegistered(this.username)
+      event.preventDefault();
+
+      this.userService.alreadyRegistered(this.username) 
+      this.username !== ""
+        ? this.saveUsernameAndNavigate()
+        : console.log("empty string is not a valid username");
+      // let x = this.userService.alreadyRegistered(this.username);
+      // (this.username !== "")? this.router.navigate(["/book-catalogue"]) : console.log("us not ok")
     }
 
-    saveUsername(event: Event): void {
-      event.preventDefault(); 
-
-      if (this.username) {
-        localStorage.setItem('user', JSON.stringify({ username: this.username }));
-      } 
+    saveUsernameAndNavigate(): void {
+      this.userService.getUsers().subscribe((userArray: User[]) => {
+        for (let user of userArray) {
+          if (this.username === user.username){
+            localStorage.setItem('user', JSON.stringify({ username: this.username }));
+            this.router.navigate(["/book-catalogue"]) 
+          }
+        } 
+      })      
     }
-
 }
-
-
-//Not quiete sure how this should be implemented, so lets do some pseudocode
-/*
-0: user inputs text
-1: action is activated from enter or buttonclick
-2: API is fetched and submitted user ID is compared to API-users
-3a: On match: proceed to 4
-3b: No match: create new user object (send to API), "pass" user data of new user
-4: Save user data in local state
-5: Navigate to book catalougue page 
-*/
-
-//CHANGE NAME OF BOOK.SERVICE???

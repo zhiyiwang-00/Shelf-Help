@@ -3,6 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
+//CHANGE NAME OF BOOK.SERVICE file???
+
 @Injectable({
   providedIn: 'root'
 })
@@ -39,12 +41,11 @@ export class BookService extends APIService {
 
 @Injectable({providedIn:'root'}) //Not sure if I was able to properly provide this functionality
 export class UserService extends APIService {
+ // private userData = this.getUsers();
+  // users$ = this.userData;
 
   constructor(http: HttpClient){
     super(http, "shelf_help_users")};
-  
-  // private userData = this.getUsers();
-  // users$ = this.userData;
 
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.apiUrl).pipe(
@@ -68,11 +69,9 @@ export class UserService extends APIService {
             this.registerNewUser(userArray, usernameInput)
           } else {
             console.log(`OLD USER ${usernameInput}`);
-          //navigate
+            //Navigate?
           }
         });
-      } else {
-        console.log("empty string is not a valid username")
       }
     }
 
@@ -87,8 +86,7 @@ export class UserService extends APIService {
       "x-api-key": `${this.apiKey}`  // Add API key to headers
     });
     this.http.post<User[]>(this.apiUrl, newUser, { headers }).subscribe(data => { //Will assume this as next?  /NEED PASSCODE
-      console.log('Updated data', data)});
-    //Navigate?
+      console.log('Updated data', data)});     //Navigate?
   }
 
   // saveBook(bookTitle: string): Observable<string[]>{
