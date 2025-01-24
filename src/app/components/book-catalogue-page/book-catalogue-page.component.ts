@@ -16,9 +16,9 @@ export class BookCataloguePageComponent {
   // userCollectionIDs: Set<number> = new Set(); // Use a Set for quick lookup
 
   isLoading: boolean = true;
-  savedBook: boolean = false;
+  // savedBook: boolean = false;
   // bookID: number = 0;
-  currentBook?: Book;
+  // currentBook?: Book;
   constructor(private bookService: BookService, private userService: UserService) { }
 
   ngOnInit() {
@@ -66,26 +66,33 @@ export class BookCataloguePageComponent {
 
   }
 
+  
 
   saveBook(book: Book): void {
-    console.log(book);
-    if (book) {
-      // this.currentBook = this.books.find(book => book === book);
-      // if (this.currentBook) {
-        // book.saved = true;
-        this.userCollection?.push(book.title);
-        // console.log(book);
-        const userData = localStorage.getItem("user");
-        if (userData) {
-          const user = JSON.parse(userData);
-          user.collection = this.userCollection;
-          localStorage.setItem("user", JSON.stringify(user));
-        }
-      // }
-      // this.savedBook = true;
-      //update book to user api collection/local storage
-    }
+    // console.log("save" + book.title);
+    // if (book) {
+    //   // this.currentBook = this.books.find(book => book === book);
+    //   // if (this.currentBook) {
+    //     // book.saved = true;
+    //     this.userCollection?.push(book.title);
+    //     // console.log(book);
+    //     const userData = localStorage.getItem("user");
+    //     if (userData) {
+    //       const user = JSON.parse(userData);
+    //       user.collection = this.userCollection;
+    //       localStorage.setItem("user", JSON.stringify(user));
+    //     }
+    //   // }
+    //   // this.savedBook = true;
+    //   //update book to user api collection/local storage
+    // }
+    this.bookService.saveBookToCollection(book, this.userCollection);
 
+  }
+
+  removeBook(book: Book): void {
+    this.userCollection =  this.userCollection?.filter(b => b !== book.title);
+    this.bookService.removeBookFromCollection(book, this.userCollection);
   }
 
   // checkSavedBook(book: Book): boolean {

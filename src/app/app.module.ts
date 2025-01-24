@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule, provideHttpClient } from '@angular/common/http'; 
+import { HttpClientModule, provideHttpClient } from '@angular/common/http';  
 
 import { AppComponent } from './app.component';
 import { LoginPageComponent } from './components/login-page/login-page.component';
@@ -12,6 +12,8 @@ import { BookService, UserService } from './book.service';
 import { BookDetailsPageComponent } from './components/book-details-page/book-details-page.component';
 import { BookItemComponent } from './components/book-item/book-item.component';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+
 
 
 @NgModule({
@@ -22,12 +24,13 @@ import { FormsModule } from '@angular/forms';
     BookCataloguePageComponent,
     NavbarComponent,
     BookDetailsPageComponent ,
-    BookItemComponent 
+    BookItemComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    CommonModule
   ],
   providers: [
     provideHttpClient(),

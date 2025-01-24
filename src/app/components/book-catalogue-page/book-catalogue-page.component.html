@@ -7,7 +7,7 @@
 
   <div *ngIf="!isLoading && books" class="row">
     <div *ngFor="let book of books" class="col-md-4" style="height: auto; margin-bottom: 2%;">
-      <app-book-item [book]="book" [collection]="userCollection" [version]="'catalogue'" (newBookEvent)="saveBook($event)"></app-book-item>
+      <app-book-item [book]="book" [collection]="userCollection" [version]="'catalogue'" (saveBookEvent)="saveBook($event)" (removeBookEvent)="removeBook($event)"></app-book-item>
       <!-- <div class="card" style="height: 100%; overflow: hidden;"> -->
         <!-- <a class="text-dark text-decoration-none" [routerLink]="['/book', book.id]"> -->
           <!-- <img [src]="book.coverImg" alt="{{ book.title }}" class="card-img-top">

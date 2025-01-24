@@ -15,34 +15,60 @@ class APIService {
   protected apiKey = 'thisisanapikey';
   protected http;
 
-  constructor(http: HttpClient, apiLocation: String = "") { 
+  constructor(http: HttpClient, apiLocation: String = "") {
     this.http = http;
     this.apiUrl = `https://charm-elderly-hook.glitch.me/${apiLocation}`; // Replace with your API endpoint
   };
 
-  errorHandelig(error:any, dataType:String = "data") {
+  errorHandelig(error: any, dataType: String = "data") {
     console.error(`Error fetching ${dataType}:`, error);
-        return throwError(() => new Error(error));
+    return throwError(() => new Error(error));
   }
 }
 
-@Injectable({providedIn:'root'})
+@Injectable({ providedIn: 'root' })
 export class BookService extends APIService {
-  
-  constructor(http: HttpClient){
-    super(http, "shelf_help_books")};
+
+  constructor(http: HttpClient) {
+    super(http, "shelf_help_books")
+  };
 
   getBooks(): Observable<Book[]> {
     return this.http.get<Book[]>(this.apiUrl).pipe(
       catchError((error) => this.errorHandelig(error, "books"))
     );
   }
+
+  removeBookFromCollection(book: Book, updatedUserCollection: string[]): void {
+    console.log("remove" + book.title);
+    const userData = localStorage.getItem("user");
+    if (userData) {
+      const user = JSON.parse(userData);
+      user.collection = updatedUserCollection; 
+      localStorage.setItem("user", JSON.stringify(user));  
+    }
+  }
+
+  saveBookToCollection(book: Book, updatedUserCollection: string[]): void {
+    console.log("save" + book.title);
+    if (book) {
+      updatedUserCollection.push(book.title);
+      const userData = localStorage.getItem("user");
+      if (userData) {
+        const user = JSON.parse(userData);
+        user.collection = updatedUserCollection;
+        localStorage.setItem("user", JSON.stringify(user));
+      }
+    }
+
+  }
 }
 
-@Injectable({providedIn:'root'}) //Not sure if I was able to properly provide this functionality
+@Injectable({ providedIn: 'root' }) //Not sure if I was able to properly provide this functionality
 export class UserService extends APIService {
  // private userData = this.getUsers();
   // users$ = this.userData;
+
 
   constructor(http: HttpClient){
     super(http, "shelf_help_users")};
@@ -52,6 +78,7 @@ export class UserService extends APIService {
       catchError((error) => this.errorHandelig(error, "users"))
     );
   }
+
 
   alreadyRegistered(usernameInput: String): void{
     if (usernameInput != ""){
@@ -75,8 +102,8 @@ export class UserService extends APIService {
       }
     }
 
-  registerNewUser(userArray : User[], usernameInput: String): void{
-    let newUser = 
+  registerNewUser(userArray: User[], usernameInput: String): void {
+    let newUser =
     {
       id: userArray[userArray.length - 1].id + 1,
       username: usernameInput,
@@ -86,6 +113,7 @@ export class UserService extends APIService {
       "x-api-key": `${this.apiKey}`  // Add API key to headers
     });
     this.http.post<User[]>(this.apiUrl, newUser, { headers }).subscribe(data => { //Will assume this as next?  /NEED PASSCODE
+
       console.log('Updated data', data)});     //Navigate?
   }
   
@@ -120,7 +148,7 @@ export interface Book {
   coverImg: string;
   rating: number;
   blurb: string;
-  saved: boolean
+  // saved: boolean
 }
 
 export interface User {
