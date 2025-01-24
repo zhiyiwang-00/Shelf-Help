@@ -12,13 +12,18 @@ import { Book, BookService } from '../../book.service';
 
 export class BookDetailsPageComponent implements OnInit {
   book: Book | undefined;
-  
   isLoading: boolean = true;
+
+  userCollection: string[] = [];
+  // messageVisibilityMap: { [bookId: number]: { save: boolean, remove: boolean } } = {};
+
+  isSaveMessageVisible: boolean = false;
+  isRemoveMessageVisible: boolean = false;
 
   constructor(
     private bookService: BookService,
     private route: ActivatedRoute,
-    private location: Location 
+    private location: Location
   ) { }
 
   ngOnInit() {
@@ -34,18 +39,51 @@ export class BookDetailsPageComponent implements OnInit {
         this.isLoading = false;
       }
     }
-  )}
+    )
+    const localUserData = localStorage.getItem("user");
+    const loggedInUser = localUserData ? JSON.parse(localUserData) : null;
+    this.userCollection = loggedInUser?.collection;
+
+  }
 
   goBack(): void {
     this.location.back();
   }
-  
-  checkSavedBook(book: Book): boolean{
-    if(book.saved){
-      return true;
-    }else{
-      return false;
+
+  checkSavedBook(book: Book): boolean {
+    if (book) {
+      if (this.userCollection.find(bookTitle => book.title === bookTitle)) {
+        return true
+      }
     }
+    return false;
   }
-  
+
+  saveBook(book: Book): void {
+    console.log("save!");
+
+    this.bookService.saveBookToCollection(book, this.userCollection);
+
+    const saveBookElement = document.getElementById("savebookM");
+    if (saveBookElement) {
+      saveBookElement.removeAttribute("hidden");
+    }
+
+    this.isSaveMessageVisible = true;
+    setTimeout(() => {
+      this.isSaveMessageVisible = false;
+    }, 1000);
+  }
+
+  removeBook(book: Book): void {
+    console.log("remove!");
+
+    this.userCollection = this.userCollection?.filter(b => b !== book.title);
+    this.bookService.removeBookFromCollection(book, this.userCollection);
+
+    this.isRemoveMessageVisible = true;
+    setTimeout(() => {
+      this.isRemoveMessageVisible = false;
+    }, 1000);
+  }
 }

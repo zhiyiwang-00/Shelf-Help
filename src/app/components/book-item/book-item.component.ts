@@ -12,19 +12,27 @@ import { Book, BookService} from '../../book.service';
 export class BookItemComponent {
   constructor(private bookService: BookService) { };
 
+  // isExpanded: boolean = false;
+
+  // // Method to toggle the expanded state
+  // toggleExpand(): void {
+  //   this.isExpanded = !this.isExpanded;
+  // }
+
   @Input() book!: Book;
   @Input() collection: string[] = [];
   @Input() version!: 'catalogue' | 'readingList';
 
   
-  @Output() newBookEvent =  new EventEmitter<Book>();
+  @Output() saveBookEvent =  new EventEmitter<Book>();
+  @Output() removeBookEvent =  new EventEmitter<Book>();
 
   saveBook() {
-    this.newBookEvent.emit(this.book);
+    this.saveBookEvent.emit(this.book);
   }
 
   removeBook() {
-    this.newBookEvent.emit(this.book);
+    this.removeBookEvent.emit(this.book);
   }
 
   checkSavedBook(book: Book): boolean {

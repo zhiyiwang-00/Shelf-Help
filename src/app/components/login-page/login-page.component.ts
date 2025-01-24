@@ -31,6 +31,7 @@ export class LoginPageComponent {
     if (this.username) {
       localStorage.setItem('user', JSON.stringify({ username: this.username }));
     } 
+
   }
 
 }

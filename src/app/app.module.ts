@@ -12,6 +12,8 @@ import { BookService, UserService } from './book.service';
 import { BookDetailsPageComponent } from './components/book-details-page/book-details-page.component';
 import { BookItemComponent } from './components/book-item/book-item.component';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+
 
 
 @NgModule({
@@ -27,7 +29,8 @@ import { FormsModule } from '@angular/forms';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    CommonModule
   ],
   providers: [
     provideHttpClient(),
