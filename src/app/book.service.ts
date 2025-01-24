@@ -88,6 +88,17 @@ export class UserService extends APIService {
     this.http.post<User[]>(this.apiUrl, newUser, { headers }).subscribe(data => { //Will assume this as next?  /NEED PASSCODE
       console.log('Updated data', data)});     //Navigate?
   }
+  
+  // checkLoggedInStatus(){
+  //   let currentUser : User = JSON.parse(localStorage.getItem('user') ?? "{username: \"\"}") 
+  //   let savedUsername : string = currentUser.username
+  //   if (savedUsername != null && savedUsername !== ""){ //Checks null/undefined, and ""
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
+  }
 
   // saveBook(bookTitle: string): Observable<string[]>{
   //   // const headers = new HttpHeaders({
@@ -98,7 +109,7 @@ export class UserService extends APIService {
   //   // );
   //   this.getUserByName()
   // }
-}
+//}
 
 
 export interface Book {
@@ -114,7 +125,7 @@ export interface Book {
 
 export interface User {
   id: number,
-  username: String,
+  username: string,
   collection: Book[];
 }
 

@@ -19,10 +19,11 @@ export class LoginPageComponent {
     private userService: UserService,
     private router: Router) {}
 
-    ngOnInit(){
-      localStorage.setItem('user', JSON.stringify({ username: '' }));
-    }
-  
+    // ngOnInit(){
+    //   localStorage.setItem('user', JSON.stringify({ username: '' }));
+    // }
+    //Logout feature that did not really work
+
     checkAndSaveUser(event: Event): void {
       event.preventDefault();
 
@@ -39,7 +40,7 @@ export class LoginPageComponent {
         for (let user of userArray) {
           if (this.username === user.username){
             localStorage.setItem('user', JSON.stringify({ username: this.username }));
-            this.router.navigate(["/book-catalogue"]) 
+            window.location.href = "/book-catalogue" 
           }
         } 
       })      
