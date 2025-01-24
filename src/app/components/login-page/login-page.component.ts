@@ -22,7 +22,7 @@ export class LoginPageComponent {
         //Testing changes:
         console.log(this.users);
       });
-      this.userService.alreadyRegistered("Johannes");
+      this.userService.alreadyRegistered("");
     }
 
   saveUsername(event: Event): void {

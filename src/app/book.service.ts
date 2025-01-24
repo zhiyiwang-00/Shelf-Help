@@ -54,27 +54,27 @@ export class UserService extends APIService {
 
   alreadyRegistered(usernameInput: String): void{
     if (usernameInput !== ""){
-    this.getUsers().subscribe((userArray: User[]) => {
-        // console.log(userArray)
-        let notRegistered: boolean = true;
-        for (var user of userArray){
-          if (user.username === usernameInput){
-            notRegistered = false;
+      this.getUsers().subscribe((userArray: User[]) => {
+          // console.log(userArray)
+          let notRegistered: boolean = true;
+          for (var user of userArray){
+            if (user.username === usernameInput){
+              notRegistered = false;
+            }
           }
-        }
-        // console.log(isRegistered)
-        if (notRegistered){
-          console.log(`NEW USER ${usernameInput}`);
-          this.registerNewUser(userArray, usernameInput)
-        } else {
-          console.log(`OLD USER ${usernameInput}`);
-        //navigate
-        }
-      });
-    } else {
-      console.log("empty string is not a valid username")
+          // console.log(isRegistered)
+          if (notRegistered){
+            console.log(`NEW USER ${usernameInput}`);
+            this.registerNewUser(userArray, usernameInput)
+          } else {
+            console.log(`OLD USER ${usernameInput}`);
+          //navigate
+          }
+        });
+      } else {
+        console.log("empty string is not a valid username")
+      }
     }
-  }
 
   registerNewUser(userArray : User[], usernameInput: String): void{
     let newUser = 
