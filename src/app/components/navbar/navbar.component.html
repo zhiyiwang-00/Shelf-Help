@@ -1,20 +1,15 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
-    <a class="navbar-brand" href="#" style="margin: 1%;">Shelf Help</a>
-    <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button> -->
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-            <li class="nav-item me-3">
-                <a class="nav-link" routerLink="/" routerLinkActive="active" aria-current="page">Login</a>
-            </li>
-            <li class="nav-item me-3">
-                <a class="nav-link" routerLink="/book-catalogue" routerLinkActive="active">Book Catalogue</a>
-            </li>
-            <li class="nav-item me-3">
-                <a class="nav-link" routerLink="/reading-list" routerLinkActive="active">Reading List</a>
-            </li>
-        </ul>
-    </div>
+    <a class="navbar-brand" href="#" style="margin: 1%; font-size: x-large;">Shelf Help</a>
+        <div class="collapse navbar-collapse d-flex justify-content-between" style="font-size: large;" id="navbarNav" *ngIf="loggedIn">
+            <ul class="navbar-nav d-flex">
+                <li class="nav-item ms-3">
+                    <a class="nav-link" routerLink="/book-catalogue" routerLinkActive="active">Book Catalogue</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav d-flex">
+                <li class="nav-item ms-auto me-5">
+                    <a class="nav-link" routerLink="/reading-list" routerLinkActive="active">{{ username }}´s Reading List</a>
+                </li>
+            </ul>
+        </div>
 </nav>
