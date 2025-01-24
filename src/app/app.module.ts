@@ -12,7 +12,7 @@ import { BookCataloguePageComponent } from './components/book-catalogue-page/boo
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { BookService, UserService } from './book.service';
 import { BookDetailsPageComponent } from './components/book-details-page/book-details-page.component';
-import { BookItemComponent } from './book-item/book-item.component';
+import { BookItemComponent } from './components/book-item/book-item.component';
 
 
 @NgModule({
@@ -22,8 +22,8 @@ import { BookItemComponent } from './book-item/book-item.component';
     ReadingListPageComponent,
     BookCataloguePageComponent,
     NavbarComponent,
-    BookDetailsPageComponent,
-    BookItemComponent
+    BookDetailsPageComponent ,
+    BookItemComponent 
   ],
   imports: [
     BrowserModule,

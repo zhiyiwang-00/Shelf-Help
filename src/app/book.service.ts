@@ -42,6 +42,9 @@ export class BookService extends APIService {
 export class UserService extends APIService {
   constructor(http: HttpClient){
     super(http, "shelf_help_users")};
+  
+  // private userData = this.getUsers();
+  // users$ = this.userData;
 
   getUsers(): Observable<User[]> {
     const headers = new HttpHeaders({
@@ -104,6 +107,7 @@ export interface Book {
   coverImg: string;
   rating: number;
   blurb: string;
+  saved: boolean
 }
 
 export interface User {

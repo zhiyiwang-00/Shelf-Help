@@ -12,6 +12,7 @@ import { Book, BookService } from '../../book.service';
 
 export class BookDetailsPageComponent implements OnInit {
   book: Book | undefined;
+  
   isLoading: boolean = true;
 
   constructor(
@@ -38,4 +39,13 @@ export class BookDetailsPageComponent implements OnInit {
   goBack(): void {
     this.location.back();
   }
+  
+  checkSavedBook(book: Book): boolean{
+    if(book.saved){
+      return true;
+    }else{
+      return false;
+    }
+  }
+  
 }

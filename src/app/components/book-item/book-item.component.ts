@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Book, BookService} from '../../book.service';
 
 @Component({
   selector: 'app-book-item',
@@ -9,5 +10,37 @@ import { Component, Input } from '@angular/core';
 })
 
 export class BookItemComponent {
+  constructor(private bookService: BookService) { };
+
+  @Input() book!: Book;
+  @Input() collection: Book[] = [];
+  @Input() version!: 'catalogue' | 'readingList';
+
   
+  @Output() newBookEvent =  new EventEmitter<Book>();
+
+  saveBook() {
+    this.newBookEvent.emit(this.book);
+  }
+
+  removeBook() {
+    this.newBookEvent.emit(this.book);
+  }
+
+  checkSavedBook(book: Book): boolean {
+    // this.userCollection.some(book => book === book.id)
+    if(this.collection?.find((b: Book) => b.id === book.id)){
+      return true;
+    }
+    return false;
+    // this.books.find(book => this.userCollection.include(book))
+  }
+
+  // @Input() title!: string;
+  // @Input() !: string;
+  // @Input() title!: string;
+  // @Input() title!: string;
+  // @Input() title!: string;
+
+ 
 }
