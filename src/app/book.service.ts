@@ -91,39 +91,6 @@ export class UserService extends APIService {
     //Navigate?
   }
 
-  registerNewUser(username: string): void{
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.apiKey}`  // Add API key to headers
-    });
-
-    this.getUsers().subscribe(users => {
-      const newId = users.length > 0 ? Math.max(...users.map(user => user.id)) + 1 : 1;
-      const newUser = {
-        id: newId,
-        username: username,
-        collection: []
-      };
-      this.http.patch<User[]>(this.apiUrl, newUser, { headers }).pipe(
-        catchError((error) => this.ErrorHandelig(error, "users"))
-      ).subscribe();
-    });
-  }
-
-  getUserByName(username: string): Observable<User | undefined>{
-    const usersData = this.getUsers();
-    return usersData.pipe(
-      map(users => {
-        const currentUser = users.find(user => user.username === username);
-        if (!currentUser) {
-          this.registerNewUser(username);
-          // throw new Error('User not found');
-        }
-        return currentUser;
-      }),
-      catchError((error) => this.ErrorHandelig(error, "user"))
-    );
-  }
-
   // saveBook(bookTitle: string): Observable<string[]>{
   //   // const headers = new HttpHeaders({
   //   //   'Authorization': `Bearer ${this.apiKey}`  // Add API key to headers

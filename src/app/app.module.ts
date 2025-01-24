@@ -11,6 +11,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { BookService, UserService } from './book.service';
 import { BookDetailsPageComponent } from './components/book-details-page/book-details-page.component';
 import { BookItemComponent } from './components/book-item/book-item.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
