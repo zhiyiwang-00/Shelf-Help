@@ -16,22 +16,18 @@ export class LoginPageComponent {
   
   constructor(private userService: UserService) {}
   
-    ngOnInit() {
-      this.userService.getUsers().subscribe((data: User[]) => {
-        this.users = data;
-        //Testing changes:
-        console.log(this.users);
-      });
-      this.userService.alreadyRegistered("");
+    checkAndSaveUser(event: Event): void {
+      this.saveUsername(event);
+      this.userService.alreadyRegistered(this.username)
     }
 
-  saveUsername(event: Event): void {
-    event.preventDefault(); 
+    saveUsername(event: Event): void {
+      event.preventDefault(); 
 
-    if (this.username) {
-      localStorage.setItem('user', JSON.stringify({ username: this.username }));
-    } 
-  }
+      if (this.username) {
+        localStorage.setItem('user', JSON.stringify({ username: this.username }));
+      } 
+    }
 
 }
 

@@ -53,7 +53,7 @@ export class UserService extends APIService {
   }
 
   alreadyRegistered(usernameInput: String): void{
-    if (usernameInput !== ""){
+    if (usernameInput != ""){
       this.getUsers().subscribe((userArray: User[]) => {
           // console.log(userArray)
           let notRegistered: boolean = true;
