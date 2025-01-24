@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
-
-import { provideHttpClient } from '@angular/common/http';  
+import { HttpClientModule, provideHttpClient } from '@angular/common/http'; 
 
 import { AppComponent } from './app.component';
 import { LoginPageComponent } from './components/login-page/login-page.component';
@@ -30,10 +28,10 @@ import { BookItemComponent } from './components/book-item/book-item.component';
     AppRoutingModule,
     FormsModule
   ],
-  providers: [BookService, 
+  providers: [
     provideHttpClient(),
+    BookService, 
     UserService,
-    provideHttpClient()
   ],
   bootstrap: [AppComponent]
 })
