@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-navbar',
@@ -7,4 +7,16 @@ import { Component } from '@angular/core';
   styleUrls: ['./navbar.component.css']
 })
 
-export class NavbarComponent {}
+export class NavbarComponent implements OnInit{
+  loggedIn: boolean = false;
+  username: string = '';
+
+  ngOnInit(): void {
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      this.loggedIn = true;
+      this.username = JSON.parse(userData).username;
+    } 
+  }
+
+}

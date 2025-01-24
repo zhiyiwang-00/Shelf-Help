@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, timeInterval, timeout } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
+
+@Injectable({
+  providedIn: 'root'
+})
 
 @Injectable()
 class APIService {
@@ -38,6 +42,9 @@ export class UserService extends APIService {
 
   constructor(http: HttpClient){
     super(http, "shelf_help_users")};
+  
+  // private userData = this.getUsers();
+  // users$ = this.userData;
 
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.apiUrl).pipe(
@@ -83,6 +90,49 @@ export class UserService extends APIService {
       console.log('Updated data', data)});
     //Navigate?
   }
+
+  registerNewUser(username: string): void{
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.apiKey}`  // Add API key to headers
+    });
+
+    this.getUsers().subscribe(users => {
+      const newId = users.length > 0 ? Math.max(...users.map(user => user.id)) + 1 : 1;
+      const newUser = {
+        id: newId,
+        username: username,
+        collection: []
+      };
+      this.http.patch<User[]>(this.apiUrl, newUser, { headers }).pipe(
+        catchError((error) => this.ErrorHandelig(error, "users"))
+      ).subscribe();
+    });
+  }
+
+  getUserByName(username: string): Observable<User | undefined>{
+    const usersData = this.getUsers();
+    return usersData.pipe(
+      map(users => {
+        const currentUser = users.find(user => user.username === username);
+        if (!currentUser) {
+          this.registerNewUser(username);
+          // throw new Error('User not found');
+        }
+        return currentUser;
+      }),
+      catchError((error) => this.ErrorHandelig(error, "user"))
+    );
+  }
+
+  // saveBook(bookTitle: string): Observable<string[]>{
+  //   // const headers = new HttpHeaders({
+  //   //   'Authorization': `Bearer ${this.apiKey}`  // Add API key to headers
+  //   // });
+  //   // return this.http.get<User[]>(this.apiUrl, { headers }).pipe(
+  //   //   catchError((error) => this.ErrorHandelig(error, "users"))
+  //   // );
+  //   this.getUserByName()
+  // }
 }
 
 
@@ -94,6 +144,7 @@ export interface Book {
   coverImg: string;
   rating: number;
   blurb: string;
+  saved: boolean
 }
 
 export interface User {
