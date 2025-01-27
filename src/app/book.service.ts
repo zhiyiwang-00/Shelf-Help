@@ -38,40 +38,17 @@ export class BookService extends APIService {
       catchError((error) => this.errorHandelig(error, "books"))
     );
   }
-
-  removeBookFromCollection(book: Book, updatedUserCollection: string[]): void {
-    console.log("remove" + book.title);
-    const userData = localStorage.getItem("user");
-    if (userData) {
-      const user = JSON.parse(userData);
-      user.collection = updatedUserCollection; 
-      localStorage.setItem("user", JSON.stringify(user));  
-    }
-  }
-
-  saveBookToCollection(book: Book, updatedUserCollection: string[]): void {
-    console.log("save" + book.title);
-    if (book) {
-      updatedUserCollection.push(book.title);
-      const userData = localStorage.getItem("user");
-      if (userData) {
-        const user = JSON.parse(userData);
-        user.collection = updatedUserCollection;
-        localStorage.setItem("user", JSON.stringify(user));
-      }
-    }
-
-  }
 }
 
 @Injectable({ providedIn: 'root' }) //Not sure if I was able to properly provide this functionality
 export class UserService extends APIService {
- // private userData = this.getUsers();
+  // private userData = this.getUsers();
   // users$ = this.userData;
 
 
-  constructor(http: HttpClient){
-    super(http, "shelf_help_users")};
+  constructor(http: HttpClient) {
+    super(http, "shelf_help_users")
+  };
 
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.apiUrl).pipe(
@@ -80,27 +57,27 @@ export class UserService extends APIService {
   }
 
 
-  alreadyRegistered(usernameInput: String): void{
-    if (usernameInput != ""){
+  alreadyRegistered(usernameInput: String): void {
+    if (usernameInput != "") {
       this.getUsers().subscribe((userArray: User[]) => {
-          // console.log(userArray)
-          let notRegistered: boolean = true;
-          for (var user of userArray){
-            if (user.username === usernameInput){
-              notRegistered = false;
-            }
+        // console.log(userArray)
+        let notRegistered: boolean = true;
+        for (var user of userArray) {
+          if (user.username === usernameInput) {
+            notRegistered = false;
           }
-          // console.log(isRegistered)
-          if (notRegistered){
-            console.log(`NEW USER ${usernameInput}`);
-            this.registerNewUser(userArray, usernameInput)
-          } else {
-            console.log(`OLD USER ${usernameInput}`);
-            //Navigate?
-          }
-        });
-      }
+        }
+        // console.log(isRegistered)
+        if (notRegistered) {
+          console.log(`NEW USER ${usernameInput}`);
+          this.registerNewUser(userArray, usernameInput)
+        } else {
+          console.log(`OLD USER ${usernameInput}`);
+          //Navigate?
+        }
+      });
     }
+  }
 
   registerNewUser(userArray: User[], usernameInput: String): void {
     let newUser =
@@ -114,9 +91,60 @@ export class UserService extends APIService {
     });
     this.http.post<User[]>(this.apiUrl, newUser, { headers }).subscribe(data => { //Will assume this as next?  /NEED PASSCODE
 
-      console.log('Updated data', data)});     //Navigate?
+      console.log('Updated data', data)
+    });     //Navigate?
   }
+
+
+  saveBookToCollection(book: Book, userCollection: string[]): string[] {
+    console.log("save" + book.title);
+    if (book) {
+      userCollection.push(book.title);
+      const userData = localStorage.getItem("user");
+      if (userData) {
+        const user = JSON.parse(userData);
+        user.collection = userCollection;
+        localStorage.setItem("user", JSON.stringify(user));
+        this.updateCollectionToApi(user.id, userCollection);
+      }
+    }
+    return userCollection;
+  }
+
   
+  removeBookFromCollection(book: Book, userCollection: string[]): string[] {
+    userCollection = userCollection?.filter(b => b !== book.title);
+    console.log("remove" + book.title);
+    const userData = localStorage.getItem("user");
+    if (userData) {
+      const user = JSON.parse(userData);
+      user.collection = userCollection;
+      localStorage.setItem("user", JSON.stringify(user));
+      this.updateCollectionToApi(user.id, userCollection);
+    }
+    return userCollection;
+
+
+  }
+
+
+  updateCollectionToApi(userID: number, updatedUserCollection: string[]): void {
+    const headers = new HttpHeaders({
+      "x-api-key": `${this.apiKey}`  // Add API key to headers
+    });
+
+    let body = { collection: updatedUserCollection };
+
+    this.http.patch<{ collection: string[] }>(`${this.apiUrl}/${userID}`, body, { headers }).subscribe({
+      next: (data) => {
+        console.log('User collection updated successfully', data);
+      },
+      error: (error) => {
+        console.error('Error updating user collection', error);
+      }
+    });
+  };
+
   // checkLoggedInStatus(){
   //   let currentUser : User = JSON.parse(localStorage.getItem('user') ?? "{username: \"\"}") 
   //   let savedUsername : string = currentUser.username
@@ -126,17 +154,9 @@ export class UserService extends APIService {
   //     return false;
   //   }
   // }
-  }
+}
 
-  // saveBook(bookTitle: string): Observable<string[]>{
-  //   // const headers = new HttpHeaders({
-  //   //   'Authorization': `Bearer ${this.apiKey}`  // Add API key to headers
-  //   // });
-  //   // return this.http.get<User[]>(this.apiUrl, { headers }).pipe(
-  //   //   catchError((error) => this.ErrorHandelig(error, "users"))
-  //   // );
-  //   this.getUserByName()
-  // }
+
 //}
 
 

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Book, BookService} from '../../book.service';
+import { Book, BookService, User, UserService} from '../../book.service';
 
 @Component({
   selector: 'app-reading-list-page',
@@ -11,25 +11,26 @@ import { Book, BookService} from '../../book.service';
 
 export class ReadingListPageComponent {
   userCollection: string[] = [];
-  userBooks: Book[] = [];
+  userBooksData: Book[] = [];
   isLoading: boolean = true;
+  loggedInUser: any;
 
-  constructor(private bookService: BookService) { }
+  constructor(private bookService: BookService, private userService: UserService, ) { }
 
   ngOnInit() {
     const localUserData = localStorage.getItem("user");
-    const loggedInUser = localUserData ? JSON.parse(localUserData) : null;
-    this.userCollection = loggedInUser?.collection;
+    this.loggedInUser = localUserData ? JSON.parse(localUserData) : null;
+    this.userCollection = this.loggedInUser?.collection;
     
     this.bookService.getBooks().subscribe({
       next: (data: Book[]) => {
-        // this.userBooks = [];
+        // this.userBooksData = [];
 
-        this.userBooks = this.userCollection.map(bookTitle =>
+        this.userBooksData = this.userCollection.map(bookTitle =>
           data.find(book => book.title === bookTitle)
         ).filter(book => book !== undefined);
     
-        console.log(this.userBooks);
+        console.log(this.userBooksData);
         this.isLoading = false;
       },
       error: (error: any) => {
@@ -40,9 +41,10 @@ export class ReadingListPageComponent {
   }
 
   removeBook(book: Book): void {
-    this.userBooks = this.userBooks.filter(b => b.id !== book.id);
-    this.userCollection =  this.userCollection?.filter(b => b !== book.title);
-    this.bookService.removeBookFromCollection(book, this.userCollection);
+    this.userBooksData = this.userBooksData.filter(b => b.id !== book.id);
+    // this.userCollection =  this.userCollection?.filter(b => b !== book.title);
+    this.userCollection = this.userService.removeBookFromCollection(book, this.userCollection);
+    // this.userService.updateUserCollection(this.loggedInUser.id, this.userCollection);
   }
   
 

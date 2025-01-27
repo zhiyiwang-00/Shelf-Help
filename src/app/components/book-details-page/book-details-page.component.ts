@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Book, BookService } from '../../book.service';
+import { User, UserService } from '../../book.service';
+
 
 @Component({
   selector: 'app-book-details-page',
@@ -15,6 +17,7 @@ export class BookDetailsPageComponent implements OnInit {
   isLoading: boolean = true;
 
   userCollection: string[] = [];
+  userID: number = 0;
   // messageVisibilityMap: { [bookId: number]: { save: boolean, remove: boolean } } = {};
 
   isSaveMessageVisible: boolean = false;
@@ -22,6 +25,7 @@ export class BookDetailsPageComponent implements OnInit {
 
   constructor(
     private bookService: BookService,
+    private userService: UserService,
     private route: ActivatedRoute,
     private location: Location
   ) { }
@@ -43,6 +47,7 @@ export class BookDetailsPageComponent implements OnInit {
     const localUserData = localStorage.getItem("user");
     const loggedInUser = localUserData ? JSON.parse(localUserData) : null;
     this.userCollection = loggedInUser?.collection;
+    this.userID = loggedInUser?.id;
 
   }
 
@@ -62,7 +67,9 @@ export class BookDetailsPageComponent implements OnInit {
   saveBook(book: Book): void {
     console.log("save!");
 
-    this.bookService.saveBookToCollection(book, this.userCollection);
+    this.userService.saveBookToCollection(book, this.userCollection);
+    // this.userService.updateUserCollection(this.userID, this.userCollection)
+
 
     const saveBookElement = document.getElementById("savebookM");
     if (saveBookElement) {
@@ -79,7 +86,8 @@ export class BookDetailsPageComponent implements OnInit {
     console.log("remove!");
 
     this.userCollection = this.userCollection?.filter(b => b !== book.title);
-    this.bookService.removeBookFromCollection(book, this.userCollection);
+    this.userService.removeBookFromCollection(book, this.userCollection);
+    // this.userService.updateUserCollection(this.userID, this.userCollection);
 
     this.isRemoveMessageVisible = true;
     setTimeout(() => {

@@ -24,13 +24,13 @@ import { CommonModule } from '@angular/common';
     BookCataloguePageComponent,
     NavbarComponent,
     BookDetailsPageComponent ,
-    BookItemComponent
+    BookItemComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    CommonModule
+    CommonModule,
   ],
   providers: [
     provideHttpClient(),
