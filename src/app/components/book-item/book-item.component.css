@@ -1,0 +1,33 @@
+.card-body {
+    position: relative;
+}
+
+.additional-info {
+    max-height: 0;
+    padding: 0 10px;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+}
+
+.additional-info.expanded {
+    max-height: 500px;
+    padding: 10px;
+}
+
+.card-footer {
+    transition: transform 0.3s ease-out;
+}
+
+.card-footer .bi-chevron-down,
+.card-footer .bi-chevron-up {
+    transition: transform 0.3s ease-out;
+}
+
+.card-footer.collapsed .bi-chevron-down {
+    transform: rotate(180deg);
+}
+
+.card-footer.expanded .bi-chevron-up {
+    transform: rotate(180deg);
+}
+

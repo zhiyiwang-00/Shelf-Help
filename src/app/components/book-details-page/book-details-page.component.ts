@@ -18,7 +18,6 @@ export class BookDetailsPageComponent implements OnInit {
 
   userCollection: string[] = [];
   userID: number = 0;
-  // messageVisibilityMap: { [bookId: number]: { save: boolean, remove: boolean } } = {};
 
   isSaveMessageVisible: boolean = false;
   isRemoveMessageVisible: boolean = false;
@@ -68,8 +67,6 @@ export class BookDetailsPageComponent implements OnInit {
     console.log("save!");
 
     this.userService.saveBookToCollection(book, this.userCollection);
-    // this.userService.updateUserCollection(this.userID, this.userCollection)
-
 
     const saveBookElement = document.getElementById("savebookM");
     if (saveBookElement) {
@@ -87,7 +84,6 @@ export class BookDetailsPageComponent implements OnInit {
 
     this.userCollection = this.userCollection?.filter(b => b !== book.title);
     this.userService.removeBookFromCollection(book, this.userCollection);
-    // this.userService.updateUserCollection(this.userID, this.userCollection);
 
     this.isRemoveMessageVisible = true;
     setTimeout(() => {

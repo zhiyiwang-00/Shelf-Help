@@ -15,6 +15,7 @@ export class BookCataloguePageComponent {
   userCollection: string[] = [];
   loggedInUser: any;
   isLoading: boolean = true;
+  expandedCardId: number | null = null;
 
   constructor(private bookService: BookService, private userService: UserService) { }
 
@@ -30,12 +31,15 @@ export class BookCataloguePageComponent {
         this.isLoading = false;
       }
     });
-
     const localUserData = localStorage.getItem("user");
     this.loggedInUser = localUserData ? JSON.parse(localUserData) : null;
     this.userCollection = this.loggedInUser.collection;
 
     console.log(this.loggedInUser, this.userCollection);
+  }
+
+  toggleCardExpansion(bookID: number): void {
+    this.expandedCardId = this.expandedCardId === bookID ? null : bookID;
   }
 
 
