@@ -35,6 +35,12 @@ export class NavbarComponent implements OnInit{
       // this.loggedIn = false;
       this.username = "invalid-user"; 
     }
-  }
 
+    //Attempt to avoid error with annonymous type
+    // let currentStorage: any;
+    // let currentUser : User = (typeof currentStorage === "string") 
+    //   ? JSON.parse(localStorage.getItem('user')!) //asserts not null 
+    //   : JSON.stringify("{username: \"\"}");
+
+  }
 }
