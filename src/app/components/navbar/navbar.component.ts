@@ -25,7 +25,14 @@ export class NavbarComponent implements OnInit {
     // } 
   }
 
+  logOut(): void{
+    this.loggedIn = false;
+    this.username = "invalid-user";
+    localStorage.removeItem("user");
+  }
+
   setLoggedInStatus(): void{
+    try{
     let currentUser : User = JSON.parse(localStorage.getItem('user') ?? JSON.stringify("{username: \"\"}"));
     let savedUsername : string = currentUser.username;
     if (savedUsername != null && savedUsername !== ""){ //Checks null/undefined, and "" (even if it cant be its good for remembering during refactor)
@@ -34,6 +41,9 @@ export class NavbarComponent implements OnInit {
       this.username = savedUsername; 
     } else {
       // this.loggedIn = false;
+      this.username = "invalid-user"; 
+    }} catch { //Catch handles error that occurs when there is a key value (user) but no value pair. 
+      localStorage.removeItem("user"); 
       this.username = "invalid-user"; 
     }
 

@@ -17,7 +17,7 @@ export class LoginPageComponent {
   
   constructor(
     private userService: UserService,
-    private router: Router) {}
+    private router: Router) {} //See if this can be changed back
 
     // ngOnInit(){
     //   localStorage.setItem('user', JSON.stringify({ username: '' }));
@@ -38,7 +38,7 @@ export class LoginPageComponent {
         for (let user of userArray) {
           if (this.username === user.username){
             localStorage.setItem('user', JSON.stringify(user));
-            window.location.href = "/book-catalogue"; 
+            window.location.href = "/book-catalogue"; //Fix, but not sure if we should keep this 
           }
         } 
       })      
