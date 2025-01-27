@@ -6,9 +6,10 @@ import { ReadingListPageComponent } from './components/reading-list-page/reading
 import { BookCataloguePageComponent } from './components/book-catalogue-page/book-catalogue-page.component';
 import { BookDetailsPageComponent } from './components/book-details-page/book-details-page.component';
 import { authGuard } from './auth.guard'
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 export const routes: Routes = [
-  { path: '', component: LoginPageComponent }, // Default route
+  { path: '', component: LoginPageComponent}, // Default route
   { path: 'reading-list', component: ReadingListPageComponent, canActivate:[authGuard]},
   { path: 'book-catalogue', component: BookCataloguePageComponent, canActivate:[authGuard]},
   { path: 'book/:id', component: BookDetailsPageComponent, canActivate:[authGuard]},

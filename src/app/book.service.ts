@@ -60,7 +60,6 @@ export class BookService extends APIService {
         localStorage.setItem("user", JSON.stringify(user));
       }
     }
-
   }
 }
 
@@ -68,7 +67,6 @@ export class BookService extends APIService {
 export class UserService extends APIService {
  // private userData = this.getUsers();
   // users$ = this.userData;
-
 
   constructor(http: HttpClient){
     super(http, "shelf_help_users")};
