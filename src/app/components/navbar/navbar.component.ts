@@ -25,17 +25,23 @@ export class NavbarComponent implements OnInit {
     // } 
   }
 
-  setLoggedInStatus() {
-    let currentUser: User = JSON.parse(localStorage.getItem('user') ?? '{"username": "", "collection":[]}');
-    let savedUsername: string = currentUser.username;
-    console.log(savedUsername);
-    console.log(savedUsername == "");
-    if (savedUsername != null && savedUsername !== "") { //Checks null/undefined, and ""
-      this.loggedIn = true;
-      this.username = savedUsername; //OBS: asserts not null/undefined
-    } else {
-      this.loggedIn = false;
-    }
-  }
+  setLoggedInStatus(): void{
+    let currentUser : User = JSON.parse(localStorage.getItem('user') ?? JSON.stringify("{username: \"\"}"));
+    let savedUsername : string = currentUser.username;
+    if (savedUsername != null && savedUsername !== ""){ //Checks null/undefined, and "" (even if it cant be its good for remembering during refactor)
 
+      this.loggedIn = true;
+      this.username = savedUsername; 
+    } else {
+      // this.loggedIn = false;
+      this.username = "invalid-user"; 
+    }
+
+    //Attempt to avoid error with annonymous type
+    // let currentStorage: any;
+    // let currentUser : User = (typeof currentStorage === "string") 
+    //   ? JSON.parse(localStorage.getItem('user')!) //asserts not null 
+    //   : JSON.stringify("{username: \"\"}");
+
+  }
 }

@@ -45,10 +45,9 @@ export class UserService extends APIService {
   // private userData = this.getUsers();
   // users$ = this.userData;
 
+  constructor(http: HttpClient){
+    super(http, "shelf_help_users")};
 
-  constructor(http: HttpClient) {
-    super(http, "shelf_help_users")
-  };
 
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.apiUrl).pipe(
@@ -123,8 +122,6 @@ export class UserService extends APIService {
       this.updateCollectionToApi(user.id, userCollection);
     }
     return userCollection;
-
-
   }
 
 
