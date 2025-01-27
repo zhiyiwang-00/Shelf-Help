@@ -25,6 +25,13 @@ export class NavbarComponent implements OnInit {
     // } 
   }
 
+  logOut(): void{ //MAKE THIS WORK
+    console.log("funker det?")
+    this.loggedIn = false;
+    this.username = "invalid-user";
+    localStorage.setItem("user", "");
+  }
+
   setLoggedInStatus(): void{
     let currentUser : User = JSON.parse(localStorage.getItem('user') ?? JSON.stringify("{username: \"\"}"));
     let savedUsername : string = currentUser.username;

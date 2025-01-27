@@ -11,5 +11,10 @@
                     <a class="nav-link" routerLink="/reading-list" routerLinkActive="active">{{ username }}´s Reading List</a>
                 </li>
             </ul>
+            <ul class="navbar-nav d-flex">
+                <li class="nav-item ms-auto me-5">
+                    <button class = "btn btn-secondary w-100" id="logOutButton" (click)="logOut()" > <a class="nav-link" routerLink="/" routerLinkActive="active">Log Out</a> </button>
+                </li>
+            </ul>
         </div>
 </nav>

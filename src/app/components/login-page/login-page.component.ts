@@ -17,7 +17,7 @@ export class LoginPageComponent {
   
   constructor(
     private userService: UserService,
-    private router: Router) {}
+    private router: Router) {} //See if this can be changed back
 
     // ngOnInit(){
     //   localStorage.setItem('user', JSON.stringify({ username: '' }));
