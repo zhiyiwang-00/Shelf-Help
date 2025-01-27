@@ -8,15 +8,15 @@ import { User } from '../../book.service';
   styleUrls: ['./navbar.component.css']
 })
 
-export class NavbarComponent implements OnInit{
+export class NavbarComponent implements OnInit {
   loggedIn: boolean = false;
   username: string = '';
 
   ngOnInit(): void {
     this.setLoggedInStatus();
-    
+
     window.addEventListener("storage", () => this.setLoggedInStatus());
-    
+
     // const userData = localStorage.getItem('user');
     // console.log(userData)
     // if (userData) {
@@ -29,6 +29,7 @@ export class NavbarComponent implements OnInit{
     let currentUser : User = JSON.parse(localStorage.getItem('user') ?? JSON.stringify("{username: \"\"}"));
     let savedUsername : string = currentUser.username;
     if (savedUsername != null && savedUsername !== ""){ //Checks null/undefined, and "" (even if it cant be its good for remembering during refactor)
+
       this.loggedIn = true;
       this.username = savedUsername; 
     } else {

@@ -27,6 +27,9 @@ export class BookItemComponent {
   @Output() saveBookEvent =  new EventEmitter<Book>();
   @Output() removeBookEvent =  new EventEmitter<Book>();
 
+  isHoveredOnButton: boolean = false;
+
+
   saveBook() {
     this.saveBookEvent.emit(this.book);
   }

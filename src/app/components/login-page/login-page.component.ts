@@ -31,16 +31,14 @@ export class LoginPageComponent {
       this.username !== ""
         ? this.saveUsernameAndNavigate()
         : console.log("empty string is not a valid username");
-      // let x = this.userService.alreadyRegistered(this.username);
-      // (this.username !== "")? this.router.navigate(["/book-catalogue"]) : console.log("us not ok")
     }
 
     saveUsernameAndNavigate(): void {
       this.userService.getUsers().subscribe((userArray: User[]) => {
         for (let user of userArray) {
           if (this.username === user.username){
-            localStorage.setItem('user', JSON.stringify({ username: this.username }));
-            window.location.href = "/book-catalogue" 
+            localStorage.setItem('user', JSON.stringify(user));
+            window.location.href = "/book-catalogue"; 
           }
         } 
       })      
