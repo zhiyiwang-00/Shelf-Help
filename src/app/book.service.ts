@@ -127,7 +127,7 @@ export class UserService extends APIService {
 
   updateCollectionToApi(userID: number, updatedUserCollection: string[]): void {
     const headers = new HttpHeaders({
-      "x-api-key": `${this.apiKey}`  // Add API key to headers
+      "x-api-key": `${this.apiKey}` 
     });
 
     let body = { collection: updatedUserCollection };
@@ -165,7 +165,6 @@ export interface Book {
   coverImg: string;
   rating: number;
   blurb: string;
-  // saved: boolean
 }
 
 export interface User {

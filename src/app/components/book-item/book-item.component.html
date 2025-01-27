@@ -1,17 +1,17 @@
-<!-- <p>{{title}}</p> -->
-
-
-<div class="card" style="height: 100%; overflow: hidden;" [id]="book.id">
+<div class="card" [ngClass]="{ 'expanded': isExpanded() }" style="overflow: hidden;" [id]="book.id">
     <a class="text-dark text-decoration-none" [routerLink]="['/book', book.id]">
         <img [src]="book.coverImg" alt="{{ book.title }}" class="card-img-top">
     </a>
     <div class="card-body pb-0">
         <div class="flex-container" style="display: flex; align-items: center; justify-content: space-between;">
-            <h5 class="card-title"
-                style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-right: 5%;">{{
-                book.title }}</h5>
-            <div *ngIf="version === 'catalogue'">
-                <div *ngIf="!checkSavedBook(book)">
+            <h5 class="card-title" [ngStyle]="{
+                'white-space': isExpanded() ? 'normal' : 'nowrap',
+                  'overflow': isExpanded() ? 'visible' : 'hidden',
+                  'text-overflow': isExpanded() ? 'clip' : 'ellipsis'}" style="margin-right: 5%;">
+                {{ book.title }}
+            </h5>
+            <div *ngIf=" version==='catalogue'">
+                <div *ngIf=" !checkSavedBook(book)">
                     <a class="link-secondary" style="cursor: pointer;" (click)="saveBook()"
                         (mouseenter)="isHoveredOnButton = true" (mouseleave)="isHoveredOnButton = false">
                         <svg *ngIf="!isHoveredOnButton" xmlns="http://www.w3.org/2000/svg" width="35" height="35"
@@ -31,18 +31,18 @@
                 <div *ngIf="checkSavedBook(book)">
                     <a class="link-secondary" style="cursor: pointer;" (click)="removeBook()"
                         (mouseenter)="isHoveredOnButton = true" (mouseleave)="isHoveredOnButton = false">
-                        <svg *ngIf="!isHoveredOnButton" xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="black"
-                            class="bi bi-bookmark-check-fill" viewBox="0 0 16 16">
+                        <svg *ngIf="!isHoveredOnButton" xmlns="http://www.w3.org/2000/svg" width="35" height="35"
+                            fill="black" class="bi bi-bookmark-check-fill" viewBox="0 0 16 16">
                             <path fill-rule="evenodd"
                                 d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5m8.854-9.646a.5.5 0 0 0-.708-.708L7.5 7.793 6.354 6.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z" />
                         </svg>
                         <svg *ngIf="isHoveredOnButton" xmlns="http://www.w3.org/2000/svg" width="35" height="35"
-                        fill="black" class="bi bi-bookmark-x" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd"
-                            d="M6.146 5.146a.5.5 0 0 1 .708 0L8 6.293l1.146-1.147a.5.5 0 1 1 .708.708L8.707 7l1.147 1.146a.5.5 0 0 1-.708.708L8 7.707 6.854 8.854a.5.5 0 1 1-.708-.708L7.293 7 6.146 5.854a.5.5 0 0 1 0-.708" />
-                        <path
-                            d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z" />
-                    </svg>
+                            fill="black" class="bi bi-bookmark-x" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M6.146 5.146a.5.5 0 0 1 .708 0L8 6.293l1.146-1.147a.5.5 0 1 1 .708.708L8.707 7l1.147 1.146a.5.5 0 0 1-.708.708L8 7.707 6.854 8.854a.5.5 0 1 1-.708-.708L7.293 7 6.146 5.854a.5.5 0 0 1 0-.708" />
+                            <path
+                                d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z" />
+                        </svg>
                     </a>
                 </div>
             </div>
@@ -65,17 +65,22 @@
             </div>
         </div>
         <p class="card-text">{{ book.author }}</p>
-
-        <!-- <div *ngIf="isExpanded" class="additional-info">
-            <p>{{ book.blurb }}</p> 
-        </div> -->
+        <div class="additional-info" [ngClass]="{ 'expanded': isExpanded() }">
+            <p>{{ book.blurb }}</p>
+        </div>
     </div>
 
-    <div class="card-footer bg-white border-top-0  pt-0 d-flex justify-content-center align-items-center">
-        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-chevron-down"
-            viewBox="0 0 16 16">
+    <div class="card-footer bg-white border-top-0  pt-0 d-flex justify-content-center align-items-center"
+        [ngClass]="{ 'expanded': isExpanded(), 'collapsed': !isExpanded() }" (click)="onExpandClick()">
+        <svg *ngIf="!isExpanded()" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+            class="bi bi-chevron-down" viewBox="0 0 16 16">
             <path fill-rule="evenodd"
                 d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708" />
+        </svg>
+        <svg *ngIf="isExpanded()" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+            class="bi bi-chevron-up" viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+                d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708z" />
         </svg>
     </div>
 

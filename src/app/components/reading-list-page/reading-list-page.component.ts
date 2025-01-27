@@ -4,7 +4,6 @@ import { Book, BookService, User, UserService} from '../../book.service';
 @Component({
   selector: 'app-reading-list-page',
   standalone: false,
-  
   templateUrl: './reading-list-page.component.html',
   styleUrl: './reading-list-page.component.css'
 })
@@ -14,6 +13,7 @@ export class ReadingListPageComponent {
   userBooksData: Book[] = [];
   isLoading: boolean = true;
   loggedInUser: any;
+  expandedCardId: number | null = null;
 
   constructor(private bookService: BookService, private userService: UserService, ) { }
 
@@ -40,11 +40,13 @@ export class ReadingListPageComponent {
     });
   }
 
+  toggleCardExpansion(bookID: number): void {
+    this.expandedCardId = this.expandedCardId === bookID ? null : bookID;
+  }
+
   removeBook(book: Book): void {
     this.userBooksData = this.userBooksData.filter(b => b.id !== book.id);
-    // this.userCollection =  this.userCollection?.filter(b => b !== book.title);
     this.userCollection = this.userService.removeBookFromCollection(book, this.userCollection);
-    // this.userService.updateUserCollection(this.loggedInUser.id, this.userCollection);
   }
   
 

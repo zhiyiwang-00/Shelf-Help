@@ -1,6 +1,3 @@
-<!-- <p>reading-list-page work!</p>
-<p>{{collection}}</p> -->
-
 <div class="container mt-5">
   <div *ngIf="isLoading" class="text-center">
     <div class="spinner-border text-secondary" role="status">
@@ -9,35 +6,10 @@
   </div>
 
   <div *ngIf="!isLoading && userBooksData" class="row">
-    <div *ngFor="let book of userBooksData" class="col-md-4" style="height: auto; margin-bottom: 2%;">
-      <app-book-item [book]="book" [version]="'readingList'" (removeBookEvent)="removeBook($event)"></app-book-item>
+    <div *ngFor="let book of userBooksData" class="col-md-3" style="height: auto; margin-bottom: 2%;">
+      <app-book-item [book]="book" [version]="'readingList'" [expandedCardId]="expandedCardId"
+        (removeBookEvent)="removeBook($event)" (toggleCardExpansion)="toggleCardExpansion($event)"></app-book-item>
     </div>
-
-    <!-- <div class="card" style="height: 100%; overflow: hidden;" [id]="book.id">
-          <a class="text-dark text-decoration-none" [routerLink]="['/book', book.id]">
-            <img [src]="book.coverImg" alt="{{ book.title }}" class="card-img-top">
-            <div class="card-body">
-              <h5 class="card-title" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{
-                book.title }}</h5>
-              <p class="card-text">{{ book.author }}</p>
-            </div>
-          </a>
-          <div class="card-footer bg-white border-top-0">
-              <button class="btn btn-secondary w-100" (click)="removeBook(book.id)">
-                REMOVE
-              </button>
-            </div>
-  
-             <div *ngIf="checkSavedBook(book.id)">
-              <button class="btn btn-secondary w-100" disabled>
-                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
-                  <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
-                </svg>
-              </button>
-            </div> 
-          </div>
-        </div> -->
-    <!-- </div> -->
   </div>
 
   <div *ngIf="!isLoading && userBooksData.length === 0" class="text-center my-4">
@@ -45,11 +17,9 @@
       You haven't saved any books to your reading list yet. Start exploring and add your favorites!
     </p>
   </div>
-  
-
 </div>
 
 
-<!-- <div *ngIf="!isLoading && !books">
-    <p>No books avaliable</p>
-  </div> -->
+<div *ngIf="!isLoading && !userCollection">
+    <p>Failed to load collection. Try again later.</p>
+  </div> 
