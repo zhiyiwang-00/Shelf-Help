@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
-    <a class="navbar-brand" href="#" style="margin: 1%; font-size: x-large;">Shelf Help</a>
+    <a class="navbar-brand" style="margin: 1%; font-size: x-large;">Shelf Help</a>
         <div class="collapse navbar-collapse d-flex justify-content-between" style="font-size: large;" id="navbarNav" *ngIf="loggedIn">
             <ul class="navbar-nav d-flex">
                 <li class="nav-item ms-3">
@@ -13,7 +13,7 @@
             </ul>
             <ul class="navbar-nav d-flex">
                 <li class="nav-item ms-auto me-5">
-                    <button class = "btn btn-secondary w-100" id="logOutButton" (click)="logOut()" > <a class="nav-link" routerLink="/" routerLinkActive="active">Log Out</a> </button>
+                    <button class = "btn btn-secondary w-100" (click)="logOut()" > <a class="nav-link" routerLink="/" routerLinkActive="active">Log Out</a> </button>
                 </li>
             </ul>
         </div>
