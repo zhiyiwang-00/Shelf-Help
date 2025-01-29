@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Book, BookService, User, UserService} from '../../book.service';
+import { Book, BookService, User, UserService } from '../../book.service';
 
 @Component({
   selector: 'app-reading-list-page',
@@ -15,22 +15,18 @@ export class ReadingListPageComponent {
   loggedInUser: any;
   expandedCardId: number | null = null;
 
-  constructor(private bookService: BookService, private userService: UserService, ) { }
+  constructor(private bookService: BookService, private userService: UserService,) { }
 
   ngOnInit() {
     const localUserData = localStorage.getItem("user");
     this.loggedInUser = localUserData ? JSON.parse(localUserData) : null;
     this.userCollection = this.loggedInUser?.collection;
-    
+
     this.bookService.getBooks().subscribe({
       next: (data: Book[]) => {
-        // this.userBooksData = [];
-
         this.userBooksData = this.userCollection.map(bookTitle =>
           data.find(book => book.title === bookTitle)
         ).filter(book => book !== undefined);
-    
-        console.log(this.userBooksData);
         this.isLoading = false;
       },
       error: (error: any) => {
@@ -48,7 +44,5 @@ export class ReadingListPageComponent {
     this.userBooksData = this.userBooksData.filter(b => b.id !== book.id);
     this.userCollection = this.userService.removeBookFromCollection(book, this.userCollection);
   }
-  
-
 
 }

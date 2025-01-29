@@ -23,19 +23,15 @@ export class BookCataloguePageComponent {
     this.bookService.getBooks().subscribe({
       next: (data: Book[]) => {
         this.books = data;
-        console.log(this.books);
         this.isLoading = false;
       },
       error: (error: any) => {
-        console.error('Error fetching books:', error);
         this.isLoading = false;
       }
     });
     const localUserData = localStorage.getItem("user");
     this.loggedInUser = localUserData ? JSON.parse(localUserData) : null;
     this.userCollection = this.loggedInUser.collection;
-
-    console.log(this.loggedInUser, this.userCollection);
   }
 
   toggleCardExpansion(bookID: number): void {
