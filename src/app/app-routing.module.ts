@@ -6,7 +6,6 @@ import { ReadingListPageComponent } from './components/reading-list-page/reading
 import { BookCataloguePageComponent } from './components/book-catalogue-page/book-catalogue-page.component';
 import { BookDetailsPageComponent } from './components/book-details-page/book-details-page.component';
 import { authGuard, loginGuard } from './auth.guard'
-import { NavbarComponent } from './components/navbar/navbar.component';
 
 export const routes: Routes = [
   { path: '', component: LoginPageComponent, canActivate:[loginGuard]}, // Default route
@@ -15,7 +14,6 @@ export const routes: Routes = [
   { path: 'book/:id', component: BookDetailsPageComponent, canActivate:[authGuard]},
   { path: '**', redirectTo: '' }, // Wildcard route for 404 fallback
 ];
-
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

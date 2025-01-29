@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Book, BookService } from '../../book.service';
+import { Book } from '../../services/book.service';
 
 @Component({
   selector: 'app-book-item',
@@ -10,20 +10,19 @@ import { Book, BookService } from '../../book.service';
 })
 
 export class BookItemComponent {
-  constructor(private bookService: BookService) { };
+  // constructor(private bookService: BookService) { };
 
   @Input() book!: Book;
   @Input() collection: string[] = [];
   @Input() version!: 'catalogue' | 'readingList';
-
+  @Input() expandedCardId: number | null = null; 
 
   @Output() saveBookEvent = new EventEmitter<Book>();
   @Output() removeBookEvent = new EventEmitter<Book>();
+  @Output() toggleCardExpansion = new EventEmitter<number>();
+
 
   isHoveredOnButton: boolean = false;
-
-  @Input() expandedCardId: number | null = null; 
-  @Output() toggleCardExpansion = new EventEmitter<number>();
 
   isExpanded(): boolean {
     return this.expandedCardId === this.book.id;

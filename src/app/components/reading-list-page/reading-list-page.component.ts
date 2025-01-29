@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { Book, BookService, User, UserService } from '../../book.service';
+import { Book, BookService, } from '../../services/book.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-reading-list-page',
@@ -44,5 +45,4 @@ export class ReadingListPageComponent {
     this.userBooksData = this.userBooksData.filter(b => b.id !== book.id);
     this.userCollection = this.userService.removeBookFromCollection(book, this.userCollection);
   }
-
 }

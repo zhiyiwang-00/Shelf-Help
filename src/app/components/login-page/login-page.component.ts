@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-
-import { User, UserService } from '../../book.service';
+import { User, UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-login-page',
   standalone: false,
-
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.css'
 })
@@ -16,13 +13,11 @@ export class LoginPageComponent {
   username: string = '';
   isLoading: boolean = false;
 
-  constructor(
-    private userService: UserService,
-    private router: Router) { };
+  constructor(private userService: UserService) { };
 
   checkAndSaveUser(event: Event): void {
     event.preventDefault();
-    if(this.username !== "" ){
+    if (this.username !== "") {
       this.isLoading = true;
       this.userService.alreadyRegistered(this.username).subscribe({
         next: (users: User[]) => {
@@ -33,7 +28,7 @@ export class LoginPageComponent {
           this.isLoading = false;
         }
       });
-    } else{
+    } else {
       alert("Enter a valid username! :(");
     }
   }
@@ -48,5 +43,4 @@ export class LoginPageComponent {
       }
     }
   }
-
 }

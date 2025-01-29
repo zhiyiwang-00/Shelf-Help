@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { Book, BookService, User, UserService } from '../../book.service';
+import { Book, BookService, } from '../../services/book.service';
+import { User, UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-book-catalogue-page',
   standalone: false,
-
   templateUrl: './book-catalogue-page.component.html',
   styleUrl: './book-catalogue-page.component.css'
 })
@@ -38,8 +38,6 @@ export class BookCataloguePageComponent {
     this.expandedCardId = this.expandedCardId === bookID ? null : bookID;
   }
 
-
-
   saveBook(book: Book): void {
     this.userCollection = this.userService.saveBookToCollection(book, this.userCollection);
   }
@@ -47,6 +45,5 @@ export class BookCataloguePageComponent {
   removeBook(book: Book): void {
     this.userCollection = this.userService.removeBookFromCollection(book, this.userCollection);
   }
-
 
 }

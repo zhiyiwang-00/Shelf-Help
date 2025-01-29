@@ -12,13 +12,14 @@
     max-height: 500px;
 }
 
-.blurred-text{
+.blurred-text {
     overflow: hidden;
-   display: -webkit-box;
-   -webkit-line-clamp: 5; 
-           line-clamp: 5; 
-   -webkit-box-orient: vertical;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    line-clamp: 5;
+    -webkit-box-orient: vertical;
 }
+
 .card-footer {
     transition: transform 0.3s ease-out;
 }
@@ -41,8 +42,8 @@
     height: 24px;
     fill: #d3d3d3;
     margin-right: 4px;
-  }
-  
-  .bi-star-fill.filled {
-    fill: #ffc107; 
-  }
+}
+
+.bi-star-fill.filled {
+    fill: #ffc107;
+}

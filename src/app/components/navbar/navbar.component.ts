@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../../book.service';
+import { User } from '../../services/user.service';
 
 @Component({
   selector: 'app-navbar',
@@ -18,27 +18,27 @@ export class NavbarComponent implements OnInit {
     window.addEventListener("storage", () => this.setLoggedInStatus());
   }
 
-  logOut(): void{
+  logOut(): void {
     this.loggedIn = false;
     this.username = "invalid-user";
     localStorage.removeItem("user");
     window.location.href = "/";
   }
 
-  setLoggedInStatus(): void{
-    try{
-    let currentUser : User = JSON.parse(localStorage.getItem('user') ?? JSON.stringify("{username: \"\"}"));
-    let savedUsername : string = currentUser.username;
-    if (savedUsername != null && savedUsername !== ""){ 
+  setLoggedInStatus(): void {
+    try {
+      let currentUser: User = JSON.parse(localStorage.getItem('user') ?? JSON.stringify("{username: \"\"}"));
+      let savedUsername: string = currentUser.username;
+      if (savedUsername != null && savedUsername !== "") {
 
-      this.loggedIn = true;
-      this.username = savedUsername; 
-    } else {
-      this.username = "invalid-user"; 
-    }} catch { 
-      localStorage.removeItem("user"); 
-      this.username = "invalid-user"; 
+        this.loggedIn = true;
+        this.username = savedUsername;
+      } else {
+        this.username = "invalid-user";
+      }
+    } catch {
+      localStorage.removeItem("user");
+      this.username = "invalid-user";
     }
-
   }
 }

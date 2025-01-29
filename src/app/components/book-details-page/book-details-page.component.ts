@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import { Book, BookService } from '../../book.service';
-import { User, UserService } from '../../book.service';
+import { Book, BookService } from '../../services/book.service';
+import { UserService } from '../../services/user.service';
 
 
 @Component({
