@@ -22,17 +22,20 @@ export class LoginPageComponent {
 
   checkAndSaveUser(event: Event): void {
     event.preventDefault();
-    this.isLoading = true;
-
-    this.userService.alreadyRegistered(this.username).subscribe({
-      next: (users: User[]) => {
-        this.saveUsernameAndNavigate(users);
-      },
-      error: (error) => {
-        console.error("Error in user retrieval", error);
-        this.isLoading = false;
-      }
-    });
+    if(this.username !== "" ){
+      this.isLoading = true;
+      this.userService.alreadyRegistered(this.username).subscribe({
+        next: (users: User[]) => {
+          this.saveUsernameAndNavigate(users);
+        },
+        error: (error) => {
+          console.error("Error in user retrieval", error);
+          this.isLoading = false;
+        }
+      });
+    } else{
+      alert("Enter a valid username! :(");
+    }
   }
 
   saveUsernameAndNavigate(userArray: User[]): void {

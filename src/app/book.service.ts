@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 
 //CHANGE NAME OF BOOK.SERVICE file???
 
@@ -64,31 +64,25 @@ export class UserService extends APIService {
     }
   
     return this.getUsers().pipe(
-      map((userArray: User[]) => {
-        let notRegistered = true;
+      switchMap((userArray: User[]) => {
+        let isNewUser = !userArray.some(user => user.username === usernameInput);
   
-        for (let user of userArray) {
-          if (user.username === usernameInput) {
-            notRegistered = false;
-          }
-        }
-  
-        if (notRegistered) {
+        if (isNewUser) {
           console.log(`NEW USER: ${usernameInput}`);
           return this.registerNewUser(userArray, usernameInput);
         } else {
           console.log(`OLD USER: ${usernameInput}`);
-          return userArray;
+          return of(userArray); // Just return the existing users
         }
       }),
       catchError(error => {
-        console.error("Error fetching users:", error);
-        return of([]); // Handle errors and return an empty list
+        console.error("Error checking registration:", error);
+        return of([]);
       })
     );
   }
 
-  registerNewUser(userArray: User[], usernameInput: string): User[] {
+  registerNewUser(userArray: User[], usernameInput: string):Observable<User[]> {
     let newUser = {
       id: userArray.length ? userArray[userArray.length - 1].id + 1 : 1,
       username: usernameInput,
@@ -97,11 +91,14 @@ export class UserService extends APIService {
   
     const headers = new HttpHeaders({ "x-api-key": `${this.apiKey}` });
   
-    this.http.post<User[]>(this.apiUrl, newUser, { headers }).subscribe(data => {
-      console.log("User registered successfully:", data);
-    });
-  
-    return [...userArray, newUser]; // Return updated user array
+    return this.http.post<User>(this.apiUrl, newUser, { headers }).pipe(
+      switchMap(() => this.getUsers()), // Fetch the updated users list
+      tap(updatedUsers => console.log("Updated user list:", updatedUsers)), // Debugging
+      catchError(error => {
+        console.error("Error registering user:", error);
+        return of(userArray); // Return the old list if an error occurs
+      })
+    );
   }
 
 
