@@ -14,6 +14,7 @@ import { User, UserService } from '../../book.service';
 export class LoginPageComponent {
   users: User[] = [];
   username: string = '';
+  isLoading: boolean = false;
 
   constructor(
     private userService: UserService,
@@ -21,21 +22,28 @@ export class LoginPageComponent {
 
   checkAndSaveUser(event: Event): void {
     event.preventDefault();
+    this.isLoading = true;
 
-    this.userService.alreadyRegistered(this.username);
-    this.username !== ""
-      ? this.saveUsernameAndNavigate()
-      : console.error("empty string is not a valid username");
-  }
-
-  saveUsernameAndNavigate(): void {
-    this.userService.getUsers().subscribe((userArray: User[]) => {
-      for (let user of userArray) {
-        if (this.username === user.username) {
-          localStorage.setItem('user', JSON.stringify(user));
-          window.location.href = "/book-catalogue";
-        }
+    this.userService.alreadyRegistered(this.username).subscribe({
+      next: (users: User[]) => {
+        this.saveUsernameAndNavigate(users);
+      },
+      error: (error) => {
+        console.error("Error in user retrieval", error);
+        this.isLoading = false;
       }
-    })
+    });
   }
+
+  saveUsernameAndNavigate(userArray: User[]): void {
+    for (let user of userArray) {
+      if (this.username === user.username) {
+        localStorage.setItem("user", JSON.stringify(user));
+        this.isLoading = false;
+        window.location.href = "/book-catalogue";
+        return;
+      }
+    }
+  }
+
 }

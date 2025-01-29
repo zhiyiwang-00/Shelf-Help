@@ -22,6 +22,7 @@ export class NavbarComponent implements OnInit {
     this.loggedIn = false;
     this.username = "invalid-user";
     localStorage.removeItem("user");
+    window.location.href = "/";
   }
 
   setLoggedInStatus(): void{

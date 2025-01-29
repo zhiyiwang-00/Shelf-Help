@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 //CHANGE NAME OF BOOK.SERVICE file???
@@ -45,8 +45,9 @@ export class UserService extends APIService {
   // private userData = this.getUsers();
   // users$ = this.userData;
 
-  constructor(http: HttpClient){
-    super(http, "shelf_help_users")};
+  constructor(http: HttpClient) {
+    super(http, "shelf_help_users")
+  };
 
 
   getUsers(): Observable<User[]> {
@@ -56,47 +57,56 @@ export class UserService extends APIService {
   }
 
 
-  alreadyRegistered(usernameInput: String): void {
-    if (usernameInput != "") {
-      this.getUsers().subscribe((userArray: User[]) => {
-        // console.log(userArray)
-        let notRegistered: boolean = true;
-        for (var user of userArray) {
+  alreadyRegistered(usernameInput: string): Observable<User[]> {
+    if (!usernameInput) {
+      console.log("Username input is empty");
+      return of([]); // Return an empty observable
+    }
+  
+    return this.getUsers().pipe(
+      map((userArray: User[]) => {
+        let notRegistered = true;
+  
+        for (let user of userArray) {
           if (user.username === usernameInput) {
             notRegistered = false;
           }
         }
-        // console.log(isRegistered)
+  
         if (notRegistered) {
-          console.log(`NEW USER ${usernameInput}`);
-          this.registerNewUser(userArray, usernameInput)
+          console.log(`NEW USER: ${usernameInput}`);
+          return this.registerNewUser(userArray, usernameInput);
         } else {
-          console.log(`OLD USER ${usernameInput}`);
-          //Navigate?
+          console.log(`OLD USER: ${usernameInput}`);
+          return userArray;
         }
-      });
-    }
+      }),
+      catchError(error => {
+        console.error("Error fetching users:", error);
+        return of([]); // Handle errors and return an empty list
+      })
+    );
   }
 
-  registerNewUser(userArray: User[], usernameInput: String): void {
-    let newUser =
-    {
-      id: userArray[userArray.length - 1].id + 1,
+  registerNewUser(userArray: User[], usernameInput: string): User[] {
+    let newUser = {
+      id: userArray.length ? userArray[userArray.length - 1].id + 1 : 1,
       username: usernameInput,
       collection: []
-    }
-    const headers = new HttpHeaders({
-      "x-api-key": `${this.apiKey}`  // Add API key to headers
+    };
+  
+    const headers = new HttpHeaders({ "x-api-key": `${this.apiKey}` });
+  
+    this.http.post<User[]>(this.apiUrl, newUser, { headers }).subscribe(data => {
+      console.log("User registered successfully:", data);
     });
-    this.http.post<User[]>(this.apiUrl, newUser, { headers }).subscribe(data => { //Will assume this as next?  /NEED PASSCODE
-
-      console.log('Updated data', data)
-    });     //Navigate?
+  
+    return [...userArray, newUser]; // Return updated user array
   }
 
 
   saveBookToCollection(book: Book, userCollection: string[]): string[] {
-    console.log("save" + book.title);
+    // console.log("save" + book.title);
     if (book) {
       userCollection.push(book.title);
       const userData = localStorage.getItem("user");
@@ -110,10 +120,10 @@ export class UserService extends APIService {
     return userCollection;
   }
 
-  
+
   removeBookFromCollection(book: Book, userCollection: string[]): string[] {
     userCollection = userCollection?.filter(b => b !== book.title);
-    console.log("remove" + book.title);
+    // console.log("remove" + book.title);
     const userData = localStorage.getItem("user");
     if (userData) {
       const user = JSON.parse(userData);
@@ -127,14 +137,14 @@ export class UserService extends APIService {
 
   updateCollectionToApi(userID: number, updatedUserCollection: string[]): void {
     const headers = new HttpHeaders({
-      "x-api-key": `${this.apiKey}` 
+      "x-api-key": `${this.apiKey}`
     });
 
     let body = { collection: updatedUserCollection };
 
     this.http.patch<{ collection: string[] }>(`${this.apiUrl}/${userID}`, body, { headers }).subscribe({
-      next: (data) => {
-        console.log('User collection updated successfully', data);
+      next: () => {
+        // console.log('User collection updated successfully', data);
       },
       error: (error) => {
         console.error('Error updating user collection', error);

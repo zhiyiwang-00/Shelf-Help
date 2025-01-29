@@ -3,9 +3,16 @@
         <h3 class="text-center mb-4">Welcome to Shelf Help</h3>
         <form (submit)="checkAndSaveUser($event)">
             <div class="mb-3">
-                <input type="text" class="form-control" id="username" placeholder="Enter your username" required [(ngModel)]="username" name="username">
+                <input type="text" class="form-control" id="username" placeholder="Enter your username" required
+                    [(ngModel)]="username" name="username">
             </div>
             <button type="submit" class="btn btn-secondary w-100">Start</button>
         </form>
+    </div>
+</div>
+
+<div *ngIf="isLoading" class="loading-overlay">
+    <div class="spinner-border text-secondary" role="status">
+        <span class="sr-only"></span>
     </div>
 </div>
