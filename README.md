@@ -16,3 +16,7 @@ Once the server is running, open your browser and navigate to `http://localhost:
 
 https://github.com/zhiyiwang-00/Shelf-Help/blob/main/shelfhelp_component_tree.pdf
 
+
+## Vercel Deployment
+
+https://shelf-help-six.vercel.app/
