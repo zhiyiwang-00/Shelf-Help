@@ -1,0 +1,10 @@
+.bi-star-fill {
+    width: 24px;
+    height: 24px;
+    fill: #d3d3d3; 
+    margin-right: 4px;
+  }
+  
+  .bi-star-fill.filled {
+    fill: #ffc107; 
+  }

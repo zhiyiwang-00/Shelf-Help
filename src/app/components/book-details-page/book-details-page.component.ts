@@ -34,7 +34,6 @@ export class BookDetailsPageComponent implements OnInit {
     this.bookService.getBooks().subscribe({
       next: (books: Book[]) => {
         this.book = books.find(book => book.id === bookID);
-        console.log(this.book);
         this.isLoading = false;
       },
       error: (error: any) => {
@@ -48,6 +47,15 @@ export class BookDetailsPageComponent implements OnInit {
     this.userCollection = loggedInUser?.collection;
     this.userID = loggedInUser?.id;
 
+  }
+  
+  getStars(rating: number): number[] {    
+    rating = Math.round(this.book?.rating || 0); // Round the rating if needed
+    const stars = Array(5)
+      .fill(0)
+      .map((_, index) => (index < rating ? 1 : 0)); // Fill stars up to the rating
+
+    return stars; 
   }
 
   goBack(): void {
@@ -64,8 +72,6 @@ export class BookDetailsPageComponent implements OnInit {
   }
 
   saveBook(book: Book): void {
-    console.log("save!");
-
     this.userService.saveBookToCollection(book, this.userCollection);
 
     const saveBookElement = document.getElementById("savebookM");
@@ -80,8 +86,6 @@ export class BookDetailsPageComponent implements OnInit {
   }
 
   removeBook(book: Book): void {
-    console.log("remove!");
-
     this.userCollection = this.userCollection?.filter(b => b !== book.title);
     this.userService.removeBookFromCollection(book, this.userCollection);
 

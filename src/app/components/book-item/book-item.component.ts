@@ -47,7 +47,12 @@ export class BookItemComponent {
     }
     return false;
   }
-
-
-
+  
+  getStars(rating: number): number[] {    
+    rating = Math.round(this.book?.rating || 0); 
+    const stars = Array(5)
+      .fill(0)
+      .map((_, index) => (index < rating ? 1 : 0)); 
+    return stars;
+  }
 }
