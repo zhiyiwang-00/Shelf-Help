@@ -14,6 +14,7 @@ import { User, UserService } from '../../book.service';
 export class LoginPageComponent {
   users: User[] = [];
   username: string = '';
+  isLoading: boolean = false;
 
   constructor(
     private userService: UserService,
@@ -21,6 +22,9 @@ export class LoginPageComponent {
 
   checkAndSaveUser(event: Event): void {
     event.preventDefault();
+    this.isLoading = true;
+    console.log(this.isLoading);
+    
 
     this.userService.alreadyRegistered(this.username);
     this.username !== ""
@@ -33,9 +37,12 @@ export class LoginPageComponent {
       for (let user of userArray) {
         if (this.username === user.username) {
           localStorage.setItem('user', JSON.stringify(user));
+          this.isLoading = false;
+          // console.log(this.isLoading);
           window.location.href = "/book-catalogue";
         }
       }
     })
+    
   }
 }
