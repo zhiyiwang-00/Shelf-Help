@@ -24,7 +24,7 @@
             <div class="col-md-7">
                 <h1 class="display-4">{{ book.title }}</h1>
                 <div class="d-flex align-items-center">
-                    <h4 class="text-muted">by {{ book?.author }}</h4>
+                    <h4 class="text-muted">by {{ book.author }}</h4>
                     <div class="ms-3 d-flex">
                         <ng-container *ngFor="let star of getStars(book.rating); let i = index">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
